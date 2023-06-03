@@ -65,7 +65,7 @@ function parse_synonyms(t)
 	local res = {}
 	for item in syn_list do
 		local parsed = parse_syn_list_item(item)
-		if parsed != '' then
+		if not (parsed == '') then
 			table.insert(res, parsed)
 		end
 	end
