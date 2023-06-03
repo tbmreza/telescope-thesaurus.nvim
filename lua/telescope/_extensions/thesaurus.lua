@@ -20,7 +20,7 @@ end
 -- Sub-commands
 local lookup = require('telescope._extensions.thesaurus.lookup').lookup
 local query = require('telescope._extensions.thesaurus.lookup').query
-local staging = require('telescope._extensions.thesaurus.lookup').query
+local staging = require('telescope._extensions.thesaurus.lookup').staging
 
 -- Register plugin
 return telescope.register_extension({

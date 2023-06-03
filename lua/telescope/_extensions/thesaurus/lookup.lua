@@ -41,6 +41,54 @@ M._new_picker = function(word, opts)
 	:find()
 end
 
+M._synonym_list = function(word)
+	-- https://www.dictionaryapi.com/api/v3/references/thesaurus/json/umpire?key=<API_KEY>
+	-- local api_route = 'https://www.dictionaryapi.com/api/v3/references/thesaurus/json/'
+	-- local key_str = '?key=' .. get_env DICTIONARYAPI_KEY
+	local key_env = os.getenv('DICTIONARYAPI_KEY') or 'env not found...'
+	local key_str = '?key=' .. key_env
+	-- local url = api_route .. word .. key_str
+	local synonyms = {}
+	table.insert(synonyms, "yes")
+	table.insert(synonyms, "yeah")
+	table.insert(synonyms, key_str)
+	return synonyms
+end
+
+M._staging_picker = function(word, opts)
+	local actions = require('telescope.actions')
+	local action_state = require('telescope.actions.state')
+	local suggestions = M._synonym_list(word)
+
+	if not suggestions then
+		return
+	end
+
+	require('telescope.pickers').new(opts, {
+		layout_strategy = 'cursor',
+		layout_config = { width = 0.27, height = 0.55 },
+		prompt_title = '[ synonyms for `'.. word ..'` ]',
+		finder = require('telescope.finders').new_table({ results = suggestions }),
+		sorter = require('telescope.config').values.generic_sorter(opts),
+		attach_mappings = function(prompt_bufnr)
+			actions.select_default:replace(function()
+				local selection = action_state.get_selected_entry()
+				if selection == nil then
+					require('telescope.utils').__warn_no_selection('builtin.thesaurus')
+					return
+				end
+
+				action_state.get_current_picker(prompt_bufnr)._original_mode = 'i'
+				actions.close(prompt_bufnr)
+				vim.cmd('normal! ciw' .. selection[1])
+				vim.cmd 'stopinsert'
+			end)
+			return true
+		end,
+	})
+	:find()
+end
+
 -- Lookup words in thesaurus.com
 ---@private
 ---@param word string
@@ -107,6 +155,14 @@ M.query = function(opts)
 		vim.notify('You must specify a word', vim.log.levels.ERROR)
 	end
 	M._new_picker(opts.word, opts)
+end
+
+--- Use Merriam-Webster Collegiate API backend.
+M.staging = function(opts)
+	if not opts.word then
+		vim.notify('You must specify a word', vim.log.levels.ERROR)
+	end
+	M._staging_picker(opts.word, opts)
 end
 
 return M
