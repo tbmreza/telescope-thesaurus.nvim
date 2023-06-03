@@ -41,26 +41,91 @@ M._new_picker = function(word, opts)
 	:find()
 end
 
-M._synonym_list = function(word)
-	-- https://www.dictionaryapi.com/api/v3/references/thesaurus/json/umpire?key=<API_KEY>
-	-- local api_route = 'https://www.dictionaryapi.com/api/v3/references/thesaurus/json/'
-	-- local key_str = '?key=' .. get_env DICTIONARYAPI_KEY
-	local key_env = os.getenv('DICTIONARYAPI_KEY') or 'env not found...'
+function expect(t)
+	if t == nil then
+		vim.notify('unexpected structure', vim.log.levels.ERROR)
+		return
+	else
+		return t
+	end
+end
+
+function parse_syn_list_item(t)
+	local syn = expect(t.wd)
+
+	if syn == nil then
+		return ''
+	end
+	return syn
+end
+
+function parse_synonyms(t)
+	local syn_list = expect(t[0].def[0].sseq[0][0][1].syn_list[0])
+
+	local res = {}
+	for item in syn_list do
+		local parsed = parse_syn_list_item(item)
+		if parsed != '' then
+			table.insert(res, parsed)
+		end
+	end
+
+	return res
+end
+
+function assert_list_of_words(t)
+	-- Warn unexpected structure if input is not a flat list of words.
+	local ok = true
+	return ok, t
+end
+
+function get_dictionaryapi(word)
+	local api_route = 'https://www.dictionaryapi.com/api/v3/references/thesaurus/json/'
+	local key_env = vim.env.DICTIONARYAPI_KEY or ''
 	local key_str = '?key=' .. key_env
-	-- local url = api_route .. word .. key_str
-	local synonyms = {}
-	table.insert(synonyms, "yes")
-	table.insert(synonyms, "yeah")
-	table.insert(synonyms, key_str)
-	return synonyms
+
+	-- Construct string of the following format:
+	-- https://www.dictionaryapi.com/api/v3/references/thesaurus/json/<WORD>?key=<API_KEY>
+	local url = api_route .. word .. key_str
+	vim.notify(url, vim.log.levels.DEBUG)
+
+	local response = require('plenary.curl').get(url)
+	if not (response and response.body) then
+		vim.notify('failed getting dictionaryapi.com', vim.log.levels.INFO)
+		return
+	end
+
+	local ok, response_body = pcall(vim.json.decode, response.body)
+	if not (ok and response_body) then
+		vim.notify('failed decoding response body', vim.log.levels.ERROR)
+		return
+	end
+
+	return ok, response_body
+end
+
+M._picker_contents = function(word)
+	local ok, response_body = get_dictionaryapi(word)
+
+	if ok then
+		is_flat_list, t = assert_list_of_words(response_body)
+		if is_flat_list then
+			return t
+		else
+			return parse_synonyms(response_body)
+		end
+	end
+
+	vim.notify('unexpected response body structure', vim.log.levels.INFO)
+	return
 end
 
 M._staging_picker = function(word, opts)
 	local actions = require('telescope.actions')
 	local action_state = require('telescope.actions.state')
-	local suggestions = M._synonym_list(word)
+	local contents = M._picker_contents(word)
 
-	if not suggestions then
+	if not contents then
 		return
 	end
 
@@ -68,7 +133,7 @@ M._staging_picker = function(word, opts)
 		layout_strategy = 'cursor',
 		layout_config = { width = 0.27, height = 0.55 },
 		prompt_title = '[ synonyms for `'.. word ..'` ]',
-		finder = require('telescope.finders').new_table({ results = suggestions }),
+		finder = require('telescope.finders').new_table({ results = contents }),
 		sorter = require('telescope.config').values.generic_sorter(opts),
 		attach_mappings = function(prompt_bufnr)
 			actions.select_default:replace(function()
