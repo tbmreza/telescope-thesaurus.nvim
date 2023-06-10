@@ -41,42 +41,109 @@ M._new_picker = function(word, opts)
 	:find()
 end
 
-function expect(t)
-	if t == nil then
-		vim.notify('unexpected structure', vim.log.levels.ERROR)
-		return
+function parse_synonyms(obj) --> Vec<String>
+	-- body[1].meta.syns
+	local first_meaning = obj[1].meta.syns
+	-- expect list of string
+	local ls = {}
+	for key, value in pairs(first_meaning) do
+		ls[key] = value
+	end
+
+
+	-- local s1 = obj.body
+	-- if s1 == nil then
+	-- 	for key, value in pairs(obj) do
+	-- 		vim.notify('obj has '..key, vim.log.levels.DEBUG)
+	-- 	end
+	-- end
+  --
+	-- local s2 = s1[0]
+	-- if s2 == nil then
+	-- 	for key, value in pairs(s1) do
+	-- 		vim.notify('s1 has '..key, vim.log.levels.DEBUG)
+	-- 	end
+	-- end
+  --
+	-- local s3 = s2.meta
+	-- if s3 == nil then
+	-- 	for key, value in pairs(s2) do
+	-- 		vim.notify('s2 has '..key, vim.log.levels.DEBUG)
+	-- 	end
+	-- end
+
+	return nil
+end
+
+-- Input is a list of suggestions if it decodes to a list of primitive json string.
+-- input = {"word", "ward"}
+function verify_list_of_suggestions(obj) -- is_list_of_words, obj
+	-- for key, value in pairs(obj) do
+	-- 	vim.notify('verify_list_of_suggestions: '..key, vim.log.levels.DEBUG)
+	-- end
+
+	-- if obj.body == nil then
+	-- 	return false, nil
+	-- end
+  --
+	-- local first = obj.body[0]
+  --
+	-- if not (type(first) == 'string')
+  --
+	-- if not (type(obj.body[0]) == "string") then
+	-- 	return false, obj
+	-- end
+
+	return true, obj
+end
+
+-- Repeat calling json.decode on nested json string.
+function decode_response_body(response_str) -- Vec<String> | Model
+	-- body[1].meta.syns
+	return {{meta = {syns = {{"air", "pair"}}}}, {meta = {syns = {{"ear", "panda"}}}}}
+	-- -- body[1]
+	-- return {"ward", "wird"}
+
+	-- local decode_ok, obj = pcall(vim.json.decode, response_str)
+  --
+	-- if decode_ok then
+	-- 	-- Continue decoding if obj[0] is not a primitive json string.
+	-- 	vim.notify('expect type table', vim.log.levels.INFO)
+	-- 	vim.notify(type(obj), vim.log.levels.INFO)
+  --
+	-- 	local first = obj[0]
+	-- end
+end
+
+function test()
+
+	local ss = get_dictionaryapi('hello')
+	local ok, str = pcall(vim.json.encode, ss)
+	vim.notify(str, vim.log.levels.DEBUG)
+	vim.notify('expect above encode ok', vim.log.levels.DEBUG)
+
+	local success, obj = pcall(vim.json.decode, str)
+	if success then
+		vim.notify('decode success', vim.log.levels.DEBUG)
 	else
-		return t
-	end
-end
-
-function parse_syn_list_item(t)
-	local syn = expect(t.wd)
-
-	if syn == nil then
-		return ''
-	end
-	return syn
-end
-
-function parse_synonyms(t)
-	local syn_list = expect(t[0].def[0].sseq[0][0][1].syn_list[0])
-
-	local res = {}
-	for item in syn_list do
-		local parsed = parse_syn_list_item(item)
-		if not (parsed == '') then
-			table.insert(res, parsed)
-		end
+		vim.notify('decode failed', vim.log.levels.DEBUG)
 	end
 
-	return res
-end
+	vim.notify(type(obj), vim.log.levels.DEBUG)
 
-function assert_list_of_words(t)
-	-- Warn unexpected structure if input is not a flat list of words.
-	local ok = true
-	return ok, t
+	for key, value in pairs(obj) do
+		print(key)
+	end
+
+	-- local ok, decoded = pcall(vim.json.decode, response.body)
+	-- local decoded = vim.json.decode(response.body)
+	-- if not (ok and decoded) then
+	-- 	vim.notify('failed decoding response body', vim.log.levels.ERROR)
+	-- 	return
+	-- end
+	-- return ok, response.body, decoded
+	-- return ok, decoded
+
 end
 
 function get_dictionaryapi(word)
@@ -90,40 +157,51 @@ function get_dictionaryapi(word)
 	vim.notify(url, vim.log.levels.DEBUG)
 
 	local response = require('plenary.curl').get(url)
+
 	if not (response and response.body) then
 		vim.notify('failed getting dictionaryapi.com', vim.log.levels.INFO)
-		return
+		return false, nil
 	end
-
-	local ok, response_body = pcall(vim.json.decode, response.body)
-	if not (ok and response_body) then
-		vim.notify('failed decoding response body', vim.log.levels.ERROR)
-		return
-	end
-
-	return ok, response_body
+	return true, response
 end
 
 M._picker_contents = function(word)
-	local ok, response_body = get_dictionaryapi(word)
-
-	if ok then
-		is_flat_list, t = assert_list_of_words(response_body)
-		if is_flat_list then
-			return t
-		else
-			return parse_synonyms(response_body)
-		end
+	local ok, response = get_dictionaryapi(word)
+	if not ok then
+		return "[ network error ]", {""}
 	end
 
-	vim.notify('unexpected response body structure', vim.log.levels.INFO)
-	return
+	-- plenary.curl returns a table containing the key "body" whose value is a json string.
+	-- Here we json.encode response so that the whole thing is a json string.
+	local encode_ok, response_str = pcall(vim.json.encode, response)
+	if not encode_ok then
+		vim.notify('internal error', vim.log.levels.ERROR)
+	end
+
+	local body_as_obj = decode_response_body(response_str)
+
+	-- The API responds with body in one of the following formats.
+	--
+	-- - A Model;
+	local is_model, synonyms = parse_synonyms(body_as_obj)
+	if is_model then
+		return "[ synonyms for `"..word.."` ]", synonyms
+	end
+	-- - A list of primitive json string.
+	local is_list_of_suggestions, suggestions = verify_list_of_suggestions(body_as_obj)
+	if is_list_of_suggestions then
+		return "[ couldn't find `"..word.."` ]", suggestions
+	end
+
+	vim.notify('unexpected response', vim.log.levels.ERROR)
+	return "", {""}
 end
 
 M._staging_picker = function(word, opts)
 	local actions = require('telescope.actions')
 	local action_state = require('telescope.actions.state')
-	local contents = M._picker_contents(word)
+	-- local contents = M._picker_contents(word)
+	local picker_prompt_title, contents = M._picker_contents(word)
 
 	if not contents then
 		return
@@ -132,7 +210,8 @@ M._staging_picker = function(word, opts)
 	require('telescope.pickers').new(opts, {
 		layout_strategy = 'cursor',
 		layout_config = { width = 0.27, height = 0.55 },
-		prompt_title = '[ synonyms for `'.. word ..'` ]',
+		-- prompt_title = '[ synonyms for `'.. word ..'` ]',
+		prompt_title = picker_prompt_title,
 		finder = require('telescope.finders').new_table({ results = contents }),
 		sorter = require('telescope.config').values.generic_sorter(opts),
 		attach_mappings = function(prompt_bufnr)
@@ -229,5 +308,7 @@ M.staging = function(opts)
 	end
 	M._staging_picker(opts.word, opts)
 end
+
+M.test = test
 
 return M

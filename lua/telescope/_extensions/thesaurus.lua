@@ -21,6 +21,7 @@ end
 local lookup = require('telescope._extensions.thesaurus.lookup').lookup
 local query = require('telescope._extensions.thesaurus.lookup').query
 local staging = require('telescope._extensions.thesaurus.lookup').staging
+local test = require('telescope._extensions.thesaurus.lookup').test
 
 -- Register plugin
 return telescope.register_extension({
@@ -29,5 +30,6 @@ return telescope.register_extension({
 		lookup = lookup,
 		query = query,
 		staging = staging,
+		test = test,
 	},
 })

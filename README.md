@@ -4,28 +4,20 @@
 
 ## Install
 
-Requirements:
+This fork's preferred backend requires an account at Merriam-Webster's website with thesaurus API key.
+1. Sign up
+1. Have "Collegiate Thesaurus" as one of your requested features.
+1. This plugin reads the environment variable `$DICTIONARYAPI_KEY`; check if nvim reads that correctly with `:echo ?? DICTIONARYAPI_KEY`.
 
-- [Neovim] ≥0.8
-- [telescope.nvim]
+## Warning
 
-Use your favorite package-manager:
+- (-) There is a 1000 requests/day limit.
+- (-) The free tier may not exist anymore one day.
 
-<details>
-<summary>With <a href="https://github.com/folke/lazy.nvim">lazy.nvim</a></summary>
-
-```lua
-{
-  'rafi/telescope-thesaurus.nvim',
-  dependencies = { 'nvim-telescope/telescope.nvim' },
-  version = false,
-},
-```
-
-</details>
+Alternatively, the parent repo's original method is fetching from thesaurus.com, internally scraping the website front-end.
 
 <details>
-<summary>With <a href="https://github.com/wbthomason/packer.nvim">packer.nvim</a></summary>
+<summary>For example with <a href="https://github.com/wbthomason/packer.nvim">packer.nvim</a></summary>
 
 ```lua
 use {
