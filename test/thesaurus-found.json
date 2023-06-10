@@ -1,0 +1,624 @@
+[
+  {
+    "meta": {
+      "id": "nay",
+      "uuid": "dcced088-7214-4de5-8382-440d9ccd428f",
+      "src": "coll_thes",
+      "section": "alpha",
+      "target": {
+        "tuuid": "a812d7ed-826a-4817-b7dc-e72705ba0044",
+        "tsrc": "collegiate"
+      },
+      "stems": [
+        "nay"
+      ],
+      "syns": [
+        [
+          "even",
+          "indeed",
+          "truly",
+          "verily",
+          "yea"
+        ]
+      ],
+      "ants": [],
+      "offensive": false
+    },
+    "hwi": {
+      "hw": "nay"
+    },
+    "fl": "adverb",
+    "def": [
+      {
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "dt": [
+                  [
+                    "text",
+                    "not merely this but also "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "I was angry—{it}nay{/it}, furious—at the way they were treating that poor dog"
+                      }
+                    ]
+                  ]
+                ],
+                "syn_list": [
+                  [
+                    {
+                      "wd": "even"
+                    },
+                    {
+                      "wd": "indeed"
+                    },
+                    {
+                      "wd": "truly"
+                    },
+                    {
+                      "wd": "verily"
+                    },
+                    {
+                      "wd": "yea"
+                    }
+                  ]
+                ],
+                "rel_list": [
+                  [
+                    {
+                      "wd": "assuredly"
+                    },
+                    {
+                      "wd": "certainly"
+                    },
+                    {
+                      "wd": "decidedly"
+                    },
+                    {
+                      "wd": "definitely"
+                    },
+                    {
+                      "wd": "doubtless"
+                    },
+                    {
+                      "wd": "incontestably"
+                    },
+                    {
+                      "wd": "incontrovertibly"
+                    },
+                    {
+                      "wd": "indisputably"
+                    },
+                    {
+                      "wd": "positively"
+                    },
+                    {
+                      "wd": "really"
+                    },
+                    {
+                      "wd": "surely"
+                    },
+                    {
+                      "wd": "undeniably"
+                    },
+                    {
+                      "wd": "undoubtedly"
+                    },
+                    {
+                      "wd": "unquestionably"
+                    }
+                  ]
+                ],
+                "phrase_list": [
+                  [
+                    {
+                      "wd": "in fact"
+                    },
+                    {
+                      "wd": "in reality"
+                    },
+                    {
+                      "wd": "in truth"
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "shortdef": [
+      "not merely this but also"
+    ]
+  },
+  {
+    "meta": {
+      "id": "nay",
+      "uuid": "dd8816f4-35ae-43d7-b485-2b2d937ebbe1",
+      "src": "coll_thes",
+      "section": "alpha",
+      "target": {
+        "tuuid": "4c553289-d7cb-46c5-bb91-ca4eea2c8177",
+        "tsrc": "collegiate"
+      },
+      "stems": [
+        "nay",
+        "nays"
+      ],
+      "syns": [
+        [
+          "negative",
+          "no",
+          "non placet"
+        ],
+        [
+          "declination",
+          "denial",
+          "disallowance",
+          "no",
+          "nonacceptance",
+          "refusal",
+          "rejection",
+          "turndown"
+        ]
+      ],
+      "ants": [
+        [
+          "positive",
+          "yea",
+          "yes"
+        ],
+        [
+          "allowance",
+          "approval",
+          "grant",
+          "OK"
+        ]
+      ],
+      "offensive": false
+    },
+    "hwi": {
+      "hw": "nay"
+    },
+    "fl": "noun",
+    "def": [
+      {
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "sn": "1",
+                "dt": [
+                  [
+                    "text",
+                    "a vote or decision against something "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "when the votes were tallied, it was 241 yeas and 54 {it}nays{/it}"
+                      }
+                    ]
+                  ]
+                ],
+                "syn_list": [
+                  [
+                    {
+                      "wd": "negative"
+                    },
+                    {
+                      "wd": "no"
+                    },
+                    {
+                      "wd": "non placet"
+                    }
+                  ]
+                ],
+                "rel_list": [
+                  [
+                    {
+                      "wd": "con"
+                    }
+                  ],
+                  [
+                    {
+                      "wd": "blackball"
+                    },
+                    {
+                      "wd": "veto"
+                    }
+                  ],
+                  [
+                    {
+                      "wd": "denial"
+                    },
+                    {
+                      "wd": "negation"
+                    },
+                    {
+                      "wd": "refusal"
+                    }
+                  ]
+                ],
+                "near_list": [
+                  [
+                    {
+                      "wd": "pro"
+                    }
+                  ],
+                  [
+                    {
+                      "wd": "acceptance"
+                    },
+                    {
+                      "wd": "approval"
+                    },
+                    {
+                      "wd": "grace"
+                    }
+                  ]
+                ],
+                "ant_list": [
+                  [
+                    {
+                      "wd": "positive"
+                    },
+                    {
+                      "wd": "yea"
+                    },
+                    {
+                      "wd": "yes"
+                    }
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "2",
+                "dt": [
+                  [
+                    "text",
+                    "an unwillingness to grant something asked for "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "gave a resounding {it}nay{/it} to the request for a mixed-company camping trip"
+                      }
+                    ]
+                  ]
+                ],
+                "syn_list": [
+                  [
+                    {
+                      "wd": "declination"
+                    },
+                    {
+                      "wd": "denial"
+                    },
+                    {
+                      "wd": "disallowance"
+                    },
+                    {
+                      "wd": "no"
+                    },
+                    {
+                      "wd": "nonacceptance"
+                    },
+                    {
+                      "wd": "refusal"
+                    },
+                    {
+                      "wd": "rejection"
+                    },
+                    {
+                      "wd": "turndown"
+                    }
+                  ]
+                ],
+                "rel_list": [
+                  [
+                    {
+                      "wd": "rebuff"
+                    },
+                    {
+                      "wd": "repudiation"
+                    },
+                    {
+                      "wd": "repulse"
+                    },
+                    {
+                      "wd": "spurn"
+                    }
+                  ],
+                  [
+                    {
+                      "wd": "negative"
+                    }
+                  ],
+                  [
+                    {
+                      "wd": "ban"
+                    },
+                    {
+                      "wd": "injunction"
+                    },
+                    {
+                      "wd": "veto"
+                    }
+                  ],
+                  [
+                    {
+                      "wd": "deterrence"
+                    },
+                    {
+                      "wd": "discouragement"
+                    },
+                    {
+                      "wd": "repression"
+                    },
+                    {
+                      "wd": "suppression"
+                    }
+                  ]
+                ],
+                "near_list": [
+                  [
+                    {
+                      "wd": "acceptance"
+                    },
+                    {
+                      "wd": "accession"
+                    },
+                    {
+                      "wd": "acquiescence"
+                    },
+                    {
+                      "wd": "agreement"
+                    },
+                    {
+                      "wd": "assent"
+                    },
+                    {
+                      "wd": "authorization"
+                    },
+                    {
+                      "wd": "clearance"
+                    },
+                    {
+                      "wd": "concurrence"
+                    },
+                    {
+                      "wd": "consent"
+                    },
+                    {
+                      "wd": "leave"
+                    },
+                    {
+                      "wd": "license",
+                      "wvrs": [
+                        {
+                          "wvl": "or",
+                          "wva": "licence"
+                        }
+                      ]
+                    },
+                    {
+                      "wd": "permission"
+                    },
+                    {
+                      "wd": "sanction"
+                    },
+                    {
+                      "wd": "sufferance"
+                    }
+                  ],
+                  [
+                    {
+                      "wd": "imprimatur"
+                    },
+                    {
+                      "wd": "seal"
+                    },
+                    {
+                      "wd": "signature"
+                    },
+                    {
+                      "wd": "stamp"
+                    }
+                  ]
+                ],
+                "ant_list": [
+                  [
+                    {
+                      "wd": "allowance"
+                    },
+                    {
+                      "wd": "approval"
+                    },
+                    {
+                      "wd": "grant"
+                    },
+                    {
+                      "wd": "OK",
+                      "wvrs": [
+                        {
+                          "wvl": "or",
+                          "wva": "okay"
+                        }
+                      ]
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "shortdef": [
+      "a vote or decision against something",
+      "an unwillingness to grant something asked for"
+    ]
+  },
+  {
+    "meta": {
+      "id": "naysayer",
+      "uuid": "07dba9ad-9dcd-415f-af42-9b0e20c68500",
+      "src": "coll_thes",
+      "section": "alpha",
+      "target": {
+        "tuuid": "11974f49-ac13-476f-91d8-526a313697a5",
+        "tsrc": "collegiate"
+      },
+      "stems": [
+        "naysayer",
+        "nay-saying",
+        "nay-sayings",
+        "naysay",
+        "naysayers"
+      ],
+      "syns": [
+        [
+          "cynic",
+          "misanthrope",
+          "pessimist"
+        ]
+      ],
+      "ants": [],
+      "offensive": false
+    },
+    "hwi": {
+      "hw": "naysayer"
+    },
+    "fl": "noun",
+    "def": [
+      {
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "dt": [
+                  [
+                    "text",
+                    "a person who distrusts other people and believes that everything is done for selfish reasons "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "those {it}naysayers{/it} who attack the integrity of the entire judicial system"
+                      }
+                    ]
+                  ]
+                ],
+                "syn_list": [
+                  [
+                    {
+                      "wd": "cynic"
+                    },
+                    {
+                      "wd": "misanthrope"
+                    },
+                    {
+                      "wd": "pessimist"
+                    }
+                  ]
+                ],
+                "rel_list": [
+                  [
+                    {
+                      "wd": "misandrist"
+                    },
+                    {
+                      "wd": "misogynist"
+                    }
+                  ],
+                  [
+                    {
+                      "wd": "doubter"
+                    },
+                    {
+                      "wd": "negativist"
+                    },
+                    {
+                      "wd": "skeptic"
+                    }
+                  ],
+                  [
+                    {
+                      "wd": "belittler"
+                    },
+                    {
+                      "wd": "critic"
+                    },
+                    {
+                      "wd": "derider"
+                    },
+                    {
+                      "wd": "detractor"
+                    },
+                    {
+                      "wd": "scoffer"
+                    }
+                  ],
+                  [
+                    {
+                      "wd": "malcontent"
+                    }
+                  ],
+                  [
+                    {
+                      "wd": "defeatist"
+                    },
+                    {
+                      "wd": "quitter"
+                    }
+                  ]
+                ],
+                "near_list": [
+                  [
+                    {
+                      "wd": "optimist"
+                    },
+                    {
+                      "wd": "Pollyanna"
+                    },
+                    {
+                      "wd": "positivist"
+                    }
+                  ],
+                  [
+                    {
+                      "wd": "idealist"
+                    },
+                    {
+                      "wd": "sentimentalist"
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "shortdef": [
+      "a person who distrusts other people and believes that everything is done for selfish reasons"
+    ]
+  }
+]
