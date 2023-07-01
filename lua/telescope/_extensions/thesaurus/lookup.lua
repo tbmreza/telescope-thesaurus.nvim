@@ -115,35 +115,88 @@ function decode_response_body(response_str) -- Vec<String> | Model
 	-- end
 end
 
+function json_notify(input)
+	local encode_ok, str = pcall(vim.json.encode, input)
+	if encode_ok then
+		vim.notify(str, vim.log.levels.DEBUG)
+	end
+end
+
+function table_is_empty(tbl)
+	for _, _ in pairs(tbl) do
+		return false
+	end
+	return true
+end
+
+function hit(q)
+	local sqlite = require('sqlite')
+	local db = sqlite.new(vim.fn.stdpath('cache') .. '/plugin.db')
+
+	local tbl_name = "thesaurus"
+	local schema = {
+		ensure = true,
+		id = {"int", "primary", "key"},
+		query = "text",
+		response = "text",
+	}
+
+	local result = db:with_open(function ()
+		-- Create table if not exists.
+		db:create(tbl_name, schema)
+
+		local cached = db:select(tbl_name, { where = { query = q } })
+		if table_is_empty(cached) then
+			local ok, response = get_dictionaryapi(q)
+			if ok then
+				local row = {
+					query = q,
+					response = response.body
+				}
+				db:insert(tbl_name, row)
+
+				return row
+			end
+		end
+
+		return cached
+	end)
+
+	return result, false
+end
+
 function test()
+	-- cached, miss = hit('nay')
+	cached, miss = hit('prophylactic')
+	json_notify(cached)
 
-	local ss = get_dictionaryapi('hello')
-	local ok, str = pcall(vim.json.encode, ss)
-	vim.notify(str, vim.log.levels.DEBUG)
-	vim.notify('expect above encode ok', vim.log.levels.DEBUG)
-
-	local success, obj = pcall(vim.json.decode, str)
-	if success then
-		vim.notify('decode success', vim.log.levels.DEBUG)
-	else
-		vim.notify('decode failed', vim.log.levels.DEBUG)
-	end
-
-	vim.notify(type(obj), vim.log.levels.DEBUG)
-
-	for key, value in pairs(obj) do
-		print(key)
-	end
-
-	-- local ok, decoded = pcall(vim.json.decode, response.body)
-	-- local decoded = vim.json.decode(response.body)
-	-- if not (ok and decoded) then
-	-- 	vim.notify('failed decoding response body', vim.log.levels.ERROR)
-	-- 	return
+	-- local ss = get_dictionaryapi('hello')
+	-- local ok, str = pcall(vim.json.encode, ss)
+	-- vim.notify(str, vim.log.levels.DEBUG)
+	-- vim.notify('expect above encode ok', vim.log.levels.DEBUG)
+  --
+	-- local success, obj = pcall(vim.json.decode, str)
+	-- if success then
+	-- 	vim.notify('decode success', vim.log.levels.DEBUG)
+	-- else
+	-- 	vim.notify('decode failed', vim.log.levels.DEBUG)
 	-- end
-	-- return ok, response.body, decoded
-	-- return ok, decoded
-
+  --
+	-- vim.notify(type(obj), vim.log.levels.DEBUG)
+  --
+	-- for key, value in pairs(obj) do
+	-- 	print(key)
+	-- end
+  --
+	-- -- local ok, decoded = pcall(vim.json.decode, response.body)
+	-- -- local decoded = vim.json.decode(response.body)
+	-- -- if not (ok and decoded) then
+	-- -- 	vim.notify('failed decoding response body', vim.log.levels.ERROR)
+	-- -- 	return
+	-- -- end
+	-- -- return ok, response.body, decoded
+	-- -- return ok, decoded
+  --
 end
 
 function get_dictionaryapi(word)

@@ -33,6 +33,9 @@ use {
 - In normal mode, over a word: `:Telescope thesaurus lookup`
 - Query word manually: `:Telescope thesaurus query word=hello`
 
+`:Telescope thesaurus test
+prints debug json string
+
 Bind the lookup command to a keymapping, e.g.:
 
 ```lua
