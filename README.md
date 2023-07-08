@@ -1,4 +1,34 @@
-# Neovim Telescope Thesaurus
+# Neovim Telescope Naming Assistant
+
+## Demo
+
+[gif]
+
+## Features
+
+Devices and techniques that I sometimes use when reasoning about a naming choice when writing code or otherwise:
+- Thesaurus & dictionary
+- Contracting a word in several ways
+- Spellchecking
+
+[paragraph about spellchecking that respects casing in code]
+
+## Install
+- (Optional) Set `$DICTIONARYAPI_KEY`.
+    - Sign up for a developer account at Merriam-Webster's website.
+    - Have "Collegiate Thesaurus" as one of your requested features.
+    - Check if nvim reads the env variable correctly with `:echo ?? DICTIONARYAPI_KEY`.
+-   ```lua
+    -- packer
+    use {
+      'tbmreza/telescope-naming-assistant.nvim',
+      requires = { 'nvim-telescope/telescope.nvim' }
+    }
+    ```
+
+## License
+
+[follows telescope's]
 
 > Browse synonyms from thesaurus.com as a [telescope.nvim] extension.
 
