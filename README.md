@@ -19,7 +19,7 @@ Devices and techniques that I sometimes use when reasoning about a naming choice
     - Have "Collegiate Thesaurus" as one of your requested features.
     - Check if nvim reads the env variable correctly with `:echo ?? DICTIONARYAPI_KEY`.
 -   ```lua
-    -- packer
+    -- For example, using packer:
     use {
       'tbmreza/telescope-naming-assistant.nvim',
       requires = { 'nvim-telescope/telescope.nvim' }
